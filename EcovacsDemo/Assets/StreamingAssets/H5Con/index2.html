@@ -1,0 +1,24 @@
+ <!DOCTYPE html>
+<html>
+	<head>
+		<script>
+			window.h5Callback = function (params) {
+				params = JSON.stringify(params);
+		      window.location.href = "uniwebview://testClick?param1=value1&param2=" + params.toString();
+		      return "unity call js success"
+		    };
+		function handleClick()
+		{
+			document.getElementById("demo").innerHTML=Date();
+			window.location.href = "uniwebview://testClick?param1=value1&param2=value2";
+		}
+		<!--window.onload = handleClick;//-->	
+		</script>
+	</head>
+<body>
+<h1>My First JavaScript</h1>
+<p id="demo">This is a paragraph.</p>
+<button type="button" onclick="handleClick()">
+Display Date</button>
+</body>
+</html>
