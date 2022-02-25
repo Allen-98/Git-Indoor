@@ -3067,6 +3067,7 @@ GameObject:
   - component: {fileID: 1581154576}
   - component: {fileID: 1581154577}
   - component: {fileID: 1581154578}
+  - component: {fileID: 1581154579}
   m_Layer: 0
   m_Name: Game Mangaer
   m_TagString: Untagged
@@ -3113,6 +3114,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2794bd43e4787564b9e765e17ac3b54b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dayLights: {fileID: 0}
+  nightLights: {fileID: 0}
+  dayFloor: {fileID: 0}
+  nightFloor: {fileID: 0}
+  isDay: 0
 --- !u!114 &1581154576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3147,9 +3153,23 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1581154572}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 001af11b3b5c3dc40abc815d24ba5709, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lights: []
+  color: {r: 0, g: 0, b: 0, a: 0}
+--- !u!114 &1581154579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1581154572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28845efb9119af04eafeb65adc65880d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1592901556
