@@ -16,7 +16,7 @@ public class FpsDisplay : MonoBehaviour
 
 	void Awake()
 	{
-		Application.targetFrameRate = 30;
+		Application.targetFrameRate = 144;
 	}
 
 	// Use this for initialization
