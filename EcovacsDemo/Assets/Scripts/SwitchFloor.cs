@@ -20,6 +20,10 @@ public class SwitchFloor : MonoBehaviour
 
     public void SwitchShanGeFloor()
     {
+        if (shanGeFloor == null)
+        {
+            shanGeFloor = GameObject.Find("MeshMap");
+        }
         if (!shanGeFloor.activeSelf)
         {
             shanGeFloor.SetActive(true);

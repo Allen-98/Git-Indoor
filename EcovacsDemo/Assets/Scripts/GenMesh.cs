@@ -15,7 +15,7 @@ public class GenMesh : MonoBehaviour
     [Tooltip("mesh的父物体Rotation")]
     public Vector3 MeshRot;
     [Tooltip("mesh的父物体Scale")]
-    public Vector3 MeshSac = new Vector3(1, 1, 1);
+    public Vector3 MeshSac = Vector3.one;
     //800*800���� key��pieceID value:100*100դ��
     private Dictionary<int, int[,]> gridData;
     //ֵ��Ӧ��ɫ�ֵ�
@@ -40,6 +40,12 @@ public class GenMesh : MonoBehaviour
     private Vector2Int dataCenter;
     private float timing;
     private int intervalTime = 2;
+
+
+
+    public float smooth = 3f;
+    Transform currentObject;
+    Vector3 mouse3DPosition;
 
     // Start is called before the first frame update
     void Start()
@@ -72,7 +78,36 @@ public class GenMesh : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (DrawSeparated)
+        if (Input.GetMouseButtonDown(0))//判断鼠标左键是否被单击
+        {
+            // 创建一条点击位置为光标位置的射线
+        Ray rays = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            //创建一个RayCast变量用于存储返回信息
+            RaycastHit hit;
+            //将创建的射线投射出去并将反馈信息存储到hit中
+            if (Physics.Raycast(rays, out hit))
+            {
+                //获取被射线碰到的对象transfrom变量
+                currentObject = hit.transform;
+                Debug.Log(currentObject.name);
+                if (currentObject.gameObject.GetComponent<MeshRenderer>().enabled)
+                {
+                    currentObject.gameObject.GetComponent<MeshRenderer>().enabled = false;
+                }
+                else
+                {
+                    currentObject.gameObject.GetComponent<MeshRenderer>().enabled = true;
+                }
+               
+            }
+        }
+        //如果鼠标左键被抬起，就将涉嫌获取到的对象删除
+        if (Input.GetMouseButtonUp(0))
+        {
+            currentObject = null;
+        }
+        if (DrawSeparated) 
         {
             return;
         }
@@ -179,6 +214,7 @@ public class GenMesh : MonoBehaviour
     //计算mesh数据
     private void CalMeshData()
     {
+        
         areaDic.Clear();
         Vector2Int mapCenter = new Vector2Int(800  / 2, 800  / 2);
         foreach (var Pos in totalGridData)
@@ -363,6 +399,7 @@ public class GenMesh : MonoBehaviour
             Mesh mesh = null;
             MeshFilter mf = null;
             MeshRenderer mr = null;
+            MeshCollider mc = null;
             GameObject go = GameObject.Find("MeshObj_" + ColorIndicesKVP.Key);
             if (go == null)
             {
@@ -373,11 +410,13 @@ public class GenMesh : MonoBehaviour
                 mesh = new Mesh();
                 mf = go.AddComponent<MeshFilter>();
                 mr = go.AddComponent<MeshRenderer>();
+                mc = go.AddComponent<MeshCollider>();
             }
             else
             {
                 mf = go.GetComponent<MeshFilter>();
                 mr = go.GetComponent<MeshRenderer>();
+                mc = go.GetComponent<MeshCollider>();
                 mesh = mf.mesh;
                 mesh.Clear();
             }
@@ -410,6 +449,7 @@ public class GenMesh : MonoBehaviour
             mesh.SetIndices(ColorIndicesKVP.Value, MeshTopology.Quads, 0);
             mesh.RecalculateBounds();
             print("mesh绘制结束：" + Time.realtimeSinceStartup);
+            mc.sharedMesh = mesh;
         }
     }
 
@@ -448,9 +488,31 @@ public class GenMesh : MonoBehaviour
 
     private void SetParentTrans()
     {
-        
-        MeshMap.transform.localPosition = MeshPos;
-        MeshMap.transform.localRotation = Quaternion.Euler(MeshRot);
-        MeshMap.transform.localScale = MeshSac;
+        //return;
+        if (MeshMap != null)
+        {
+            MeshMap.transform.localPosition = MeshPos;
+            MeshMap.transform.localRotation = Quaternion.Euler(MeshRot);
+            MeshMap.transform.localScale = MeshSac;
+        }
     }
+
+    public void SwitchClick()
+    {
+        DestroyImmediate(MeshMap.gameObject);
+        DrawSeparated = !DrawSeparated;
+        if (MeshMap == null)
+        {
+            MeshMap = new GameObject("MeshMap");
+        }
+        if (isThread)
+        {
+            Loom.RunAsync(CalGridData);
+        }
+        else
+        {
+            CalGridData();
+        }
+    }
+
 }
