@@ -3,37 +3,44 @@ using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
 
-public class ParseData : MonoBehaviour
+public class GenMesh : MonoBehaviour
 {
-    private bool isInit;
     public bool isThread = false;
-    public GameObject MeshMap;
+    public bool DrawSeparated = false;
 
-    public Material[] materials;
-    Texture2D texture;
+    [Tooltip("mesh的父物体")]
+    public GameObject MeshMap;
+    [Tooltip("mesh的父物体Position")]
+    public Vector3 MeshPos;
+    [Tooltip("mesh的父物体Rotation")]
+    public Vector3 MeshRot;
+    [Tooltip("mesh的父物体Scale")]
+    public Vector3 MeshSac = new Vector3(1, 1, 1);
     //800*800���� key��pieceID value:100*100դ��
     private Dictionary<int, int[,]> gridData;
     //ֵ��Ӧ��ɫ�ֵ�
     Dictionary<int, Color> areaColor = new Dictionary<int, Color>();
     //����������ɫ��
     Stack<Color> colorStack = new Stack<Color> { };
-    //դ�����ݱ�Ե����
+    //户型栅格数据边框范围
     int xmax, ymax = 0;
     int xmin = int.MaxValue;
     int ymin = int.MaxValue;
+
+    //mesh数据边框范围
+    int mesh_xmax, mesh_ymax = 0;
+    int mesh_xmin = int.MaxValue;
+    int mesh_ymin = int.MaxValue;
     //100*100դ����� ������
     private List<string> pieces = new List<string> { "20", "27", "28", "35", "36", "43", "44" };
     //private List<string> pieces = new List<string> { "1"};
     //��������
     private Dictionary<Vector2Int, int> totalGridData = new Dictionary<Vector2Int, int>();
     //���ݺ�ͼƬ�ı���
-    int size = 200;
-    private int mapScale = 1;
     private Vector2Int dataCenter;
     private float timing;
     private int intervalTime = 2;
 
-    private int compNum;
     // Start is called before the first frame update
     void Start()
     {
@@ -48,9 +55,6 @@ public class ParseData : MonoBehaviour
         colorStack.Push(new Color(2 / 255f, 245 / 255f, 123 / 255f));
         colorStack.Push(new Color(127 / 255f, 3 / 255f, 9 / 255f));
        
-        //MeshMap.transform.SetParent(pos.transform);
-        //MeshMap.transform.localScale = new Vector3(1, 1, 1);
-
         //ResetTexture();
         Debug.Log("解析数据：" + Time.realtimeSinceStartup);
         HandleData();
@@ -68,6 +72,10 @@ public class ParseData : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (DrawSeparated)
+        {
+            return;
+        }
         timing = timing + Time.deltaTime;
         if (timing > intervalTime)
         {
@@ -81,16 +89,7 @@ public class ParseData : MonoBehaviour
             {
                 CalGridData();
             }
-        }
-       
-        if (compNum == 4)
-        {
-            for (int i = 0; i < 4; i++)
-            {
-                DrawMesh();
-            }
-            compNum = 0;
-        }
+        }   
     }
 
     //解析数据
@@ -129,6 +128,9 @@ public class ParseData : MonoBehaviour
                         for (int y = 0; y < 100; y++)
                         {
                             int value = meshGrid[x, y];
+                            //过滤
+                            if (value == 0)
+                                continue;
                             if (!areaColor.ContainsKey(value))
                             {
                                 if (colorStack.Count == 0)
@@ -157,39 +159,12 @@ public class ParseData : MonoBehaviour
         }
         //�������ĵ�
         dataCenter = CalCenter();
-        print("栅格数据计算完毕，开始计算mesh顶点索引数据：" + Time.realtimeSinceStartup);
+        print("栅格数据计算完毕，开始计算mesh顶点索引数据：");
 
         //
-        if (isThread)
-        {
-            Loom.QueueOnMainThread(CalMeshData);
-        }
-        else
-        {
-            CalMeshData();
-        }
-       
-    }
+    
+        CalMeshData();
 
-    private void MatchTexture()
-    {
-        Vector2Int mapCenter = new Vector2Int(texture.width / 2, texture.height / 2);
-        //��ͼ
-        foreach (var Pos in totalGridData)
-        {
-            Vector2Int offset = new Vector2Int(Pos.Key.x - dataCenter.x, Pos.Key.y - dataCenter.y);
-            int StartPosX = mapCenter.x + mapScale * offset.x;
-            int StartPosY = mapCenter.y + mapScale * offset.y;
-            Color pixelColor = areaColor[Pos.Value];
-            for (int i = StartPosX; i < StartPosX + mapScale; i++)
-            {
-                for (int j = StartPosY; j < StartPosY + mapScale; j++)
-                {
-                    texture.SetPixel(i, j, pixelColor);
-                }
-            }
-        }
-        texture.Apply();
     }
 
     //点集合
@@ -201,108 +176,108 @@ public class ParseData : MonoBehaviour
     //颜色-索引数组  字典
     Dictionary<int, List<int>> ColorIndices = new Dictionary<int, List<int>>();
 
-
-    List<Dictionary<int, List<int>>> AreaColorList = new List<Dictionary<int, List<int>>>();
-    List<MeshGridData> meshGridDatas;
+    //计算mesh数据
     private void CalMeshData()
     {
         areaDic.Clear();
-        Vector2Int mapCenter = new Vector2Int(800 * mapScale / 2, 800 * mapScale / 2);
+        Vector2Int mapCenter = new Vector2Int(800  / 2, 800  / 2);
         foreach (var Pos in totalGridData)
         {
             Vector2Int offset = new Vector2Int(Pos.Key.x - dataCenter.x, Pos.Key.y - dataCenter.y);
-            int StartPosX = mapCenter.x + mapScale * offset.x;
-            int StartPosY = mapCenter.y + mapScale * offset.y;
+            int StartPosX = mapCenter.x +  offset.x;
+            int StartPosY = mapCenter.y +  offset.y;
             //记录当前点的数据
             areaDic.Add(new Vector2Int(StartPosX,StartPosY),Pos.Value);
         }
-
+        //计算出户型实际的区域
+        mesh_xmin = mapCenter.x + xmin - dataCenter.x;
+        mesh_xmax = mapCenter.x + xmax - dataCenter.x;
+        mesh_ymin = mapCenter.y + ymin - dataCenter.y;
+        mesh_ymax = mapCenter.y + ymax - dataCenter.y;
+        int x_length = mesh_xmax - mesh_xmin + 1;
+        int y_length = mesh_ymax - mesh_ymin + 1;
         //遍历整个正方形区域内单位正方形的点坐标，生成点集合和index集合
         //索引计数
         verts.Clear();
-        for (int i = 0; i <=  size; i+=1)
+        for (int i = 0; i <= x_length; i+=1)
         {
-            for (int j = 0; j <= size; j+=1)
+            for (int j = 0; j <= y_length; j+=1)
             {
                 verts.Add(new Vector3(i,j,0));
             }
         }
-        meshGridDatas =new List<MeshGridData>();
         ColorIndices.Clear();
         int index = 0;
         //绘制单位栅格
-        //由于Mesh最多画65000个顶点，所有800*800拆成16个200*200的小mesh
-        for (int gridIndexX = 1; gridIndexX < 3; gridIndexX++)
+        lock(lock_2)
         {
-            for (int gridIndexY = 1; gridIndexY < 3; gridIndexY++)
+            for (int i = 0; i < x_length; i += 1)
             {
-                lock(lock_2)
+                for (int j = 0; j < y_length; j += 1)
                 {
-                    ColorIndices.Clear();
-                    for (int i = 0; i < 200; i += 1)
+                    //当前点对应索引公式：index = (size+1)*x + y + 1
+                    //左下角（当前点）
+                    int index0 = GetVextrexIndex(i, j);
+                    //左上角
+                    int index1 = GetVextrexIndex(i, j + 1);
+                    //右上角
+                    int index2 = GetVextrexIndex(i + 1, j + 1);
+                    //右下角
+                    int index3 = GetVextrexIndex(i + 1, j);
+                    //根据颜色区分SubMesh
+                    Vector2Int curPos = new Vector2Int(i + mesh_xmin, j + mesh_ymin);
+                    int colorVal = -1;
+                    if (areaDic.ContainsKey(curPos))
                     {
-                        for (int j = 0; j < 200; j += 1)
+                        colorVal = areaDic[curPos];
+                    }
+                    if (colorVal > 0)
+                    {
+                        if (!ColorIndices.ContainsKey(colorVal))
                         {
-                            //当前点对应索引公式：index = (size+1)*x + y + 1
-                            //左下角（当前点）
-                            int index0 = GetVextrexIndex(i, j);
-                            //左上角
-                            int index1 = GetVextrexIndex(i, j + 1);
-                            //右上角
-                            int index2 = GetVextrexIndex(i + 1, j + 1);
-                            //右下角
-                            int index3 = GetVextrexIndex(i + 1, j);
-                            //根据颜色区分SubMesh
-                            Vector2Int curPos = new Vector2Int(size * gridIndexX + i, size * gridIndexY + j);
-
-                            int colorVal = 0;
-                            if (areaDic.ContainsKey(curPos))
-                            {
-                                colorVal = areaDic[curPos];
-                            }
-                            if (!ColorIndices.ContainsKey(colorVal))
-                            {
-                                ColorIndices.Add(colorVal, new List<int>());
-                            }
-                            List<int> curIndices = ColorIndices[colorVal];
-                            //扩充Index
-                            curIndices.Add(index0);
-                            curIndices.Add(index1);
-                            curIndices.Add(index2);
-                            curIndices.Add(index3);
-                            ColorIndices[colorVal] = curIndices;
+                            ColorIndices.Add(colorVal, new List<int>());
                         }
-                    }
-                    AreaColorList.Add(ColorIndices);
-                    MeshGridData meshGridData = new MeshGridData(gridIndexX, gridIndexY, index);
-                    meshGridDatas.Add(meshGridData);
-                    index++;
-                    //print(gridIndexX + " " + gridIndexY +  "count??? " + ColorIndices.Count);
-                    if (isThread)
-                    {
-                        compNum++;
-                    }
-                    else
-                    {
-                        DrawMesh();
+                        List<int> curIndices = ColorIndices[colorVal];
+                        //扩充Index
+                        curIndices.Add(index0);
+                        curIndices.Add(index1);
+                        curIndices.Add(index2);
+                        curIndices.Add(index3);
+                        ColorIndices[colorVal] = curIndices;
                     }
                 }
             }
+            index++;
         }
-        print("mesh绘制完毕：" + Time.realtimeSinceStartup);
-        if (!isInit)
+        print("开始mesh绘制：");
+        if (isThread)
         {
-            MeshMap.transform.localPosition = new Vector3(-23.543f, 0.3f, -21.99f);
-            MeshMap.transform.localRotation = Quaternion.Euler(new Vector3(90, 0, 0));
-            MeshMap.transform.localScale = new Vector3(0.0563145f, 0.0563145f, 0.0563145f);
-            isInit = true;
+            if (DrawSeparated)
+            {
+                Loom.QueueOnMainThread(DrawSeparateMesh);
+            }
+            else
+            {
+                Loom.QueueOnMainThread(DrawMesh);
+            }
         }
-        
+        else
+        {
+            if (DrawSeparated)
+            {
+                DrawSeparateMesh();
+            }
+            else
+            {
+                DrawMesh();
+            }
+        }
     }
 
     private int GetVextrexIndex(int x,int y)
     {
-        return ((size + 1) * x + y);
+        int colunmNum = mesh_ymax - mesh_ymin + 1;
+        return ((colunmNum + 1) * x + y);
     }
     private Object lock_1 = new Object();
     private Object lock_2 = new Object();
@@ -310,24 +285,16 @@ public class ParseData : MonoBehaviour
     {
         lock(lock_1)
         {
-            if (meshGridDatas.Count == 0)
-            {
-                Debug.LogError("Mesh数据有问题");
-                return;
-            }
-
-            MeshGridData meshGridData = meshGridDatas[0];
-            meshGridDatas.RemoveAt(0);
             Mesh mesh = null;
             MeshFilter mf = null;
             MeshRenderer mr = null;
-            GameObject go = GameObject.Find("MeshMap/" + meshGridData.GridIndexX + " " + meshGridData.GridIndexY);
+            GameObject go = GameObject.Find("MeshObj");
             if (go == null)
             {
                 go = new GameObject();
-                go.name = meshGridData.GridIndexX + " " + meshGridData.GridIndexY;
-                go.transform.position = new Vector3(meshGridData.GridIndexX * 200, meshGridData.GridIndexY * 200, 0);
+                go.name = "MeshObj";
                 go.transform.SetParent(MeshMap.transform);
+                go.transform.position = new Vector3(0, 0, 0);
                 mesh = new Mesh();
                 mf = go.AddComponent<MeshFilter>();
                 mr = go.AddComponent<MeshRenderer>();
@@ -339,15 +306,31 @@ public class ParseData : MonoBehaviour
                 mesh = mf.mesh;
                 mesh.Clear();
             }
-            mesh.name = meshGridData.GridIndexX + " " + meshGridData.GridIndexY;
+            if (verts.Count > 60000)
+            {
+                mesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
+            }
+            else
+            {
+                mesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt16;
+            }
+
+            mesh.name = "bigMesh";
             mf.mesh = mesh;
-            mr.materials = materials;
             //绘制不同颜色的SubMesh
-            mesh.subMeshCount = AreaColorList[meshGridData.AreaIndex].Count;
+            mesh.subMeshCount = ColorIndices.Count;
             mesh.SetVertices(verts);
             int index = 0;
-            //Debug.LogError("meshGridData:" + meshGridData.GridIndexX + "   " + meshGridData.GridIndexY + "  ColorIndices count!! " + AreaColorList[meshGridData.AreaIndex].Count);
-            foreach (var item in AreaColorList[meshGridData.AreaIndex])
+           
+            List<Material> materialList = new List<Material>();
+            for (int i = 0; i < ColorIndices.Count; i++)
+            {
+                Material mat = null;
+                mat = new Material(Shader.Find("Standard"));
+                materialList.Add(mat);
+            }
+            mr.materials = materialList.ToArray() ;
+            foreach (var item in ColorIndices)
             {
                 Color pixelColor = areaColor[item.Key];
                 mr.materials[index].color = pixelColor;
@@ -355,10 +338,81 @@ public class ParseData : MonoBehaviour
                 index++;
             }
             mesh.RecalculateBounds();
-            
+            print("mesh绘制结束：" + Time.realtimeSinceStartup);
+        }
 
+        SetParentTrans();
+    }
+
+    private void DrawSeparateMesh()
+    {
+        foreach (var item in ColorIndices)
+        {
+            if (item.Key > 0)
+            {
+                DrawOnColorMesh(item);
+            }
+        }
+        SetParentTrans();
+    }
+
+    private void DrawOnColorMesh(KeyValuePair<int, List<int>> ColorIndicesKVP)
+    {
+        lock (lock_1)
+        {
+            Mesh mesh = null;
+            MeshFilter mf = null;
+            MeshRenderer mr = null;
+            GameObject go = GameObject.Find("MeshObj_" + ColorIndicesKVP.Key);
+            if (go == null)
+            {
+                go = new GameObject();
+                go.name = "MeshObj_" + ColorIndicesKVP.Key;
+                go.transform.SetParent(MeshMap.transform);
+                go.transform.position = new Vector3(0, 0, 0);
+                mesh = new Mesh();
+                mf = go.AddComponent<MeshFilter>();
+                mr = go.AddComponent<MeshRenderer>();
+            }
+            else
+            {
+                mf = go.GetComponent<MeshFilter>();
+                mr = go.GetComponent<MeshRenderer>();
+                mesh = mf.mesh;
+                mesh.Clear();
+            }
+            int verCnt = ColorIndicesKVP.Value.Count / 4;
+
+            if (verts.Count > 60000)
+            {
+                mesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
+            }
+            else
+            {
+                mesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt16;
+            }
+
+            mesh.name = ColorIndicesKVP.Key.ToString();
+            mf.mesh = mesh;
+            //绘制不同颜色的SubMesh
+            mesh.subMeshCount = ColorIndices.Count;
+            mesh.SetVertices(verts);
+
+            List<Material> materialList = new List<Material>();
+
+            Material mat = new Material(Shader.Find("Standard"));
+            materialList.Add(mat);
+
+            mr.materials = materialList.ToArray();
+
+            Color pixelColor = areaColor[ColorIndicesKVP.Key];
+            mr.materials[0].color = pixelColor;
+            mesh.SetIndices(ColorIndicesKVP.Value, MeshTopology.Quads, 0);
+            mesh.RecalculateBounds();
+            print("mesh绘制结束：" + Time.realtimeSinceStartup);
         }
     }
+
     private void HandleBound(int x,int y)
     {
         if (x > xmax) 
@@ -383,6 +437,7 @@ public class ParseData : MonoBehaviour
         }
     }
 
+
     private Vector2Int CalCenter()
     {
         //Debug.LogError(xmax + "  " + xmin  + "  " + ymax + "  " + ymin);
@@ -391,29 +446,11 @@ public class ParseData : MonoBehaviour
         return center;
     }
 
-    private void ResetTexture()
+    private void SetParentTrans()
     {
-        for (int y = 0; y < texture.height; y++)
-        {
-            for (int x = 0; x < texture.width; x ++)
-            {
-                texture.SetPixel(x, y, Color.white);
-            }
-        }
-    }
-}
-
-
-public class MeshGridData
-{
-    public int GridIndexX;
-    public int GridIndexY;
-    public int AreaIndex;
-
-    public MeshGridData(int gridIndexX, int gridIndexY, int areaIndex)
-    {
-        GridIndexX = gridIndexX;
-        GridIndexY = gridIndexY;
-        AreaIndex = areaIndex;
+        
+        MeshMap.transform.localPosition = MeshPos;
+        MeshMap.transform.localRotation = Quaternion.Euler(MeshRot);
+        MeshMap.transform.localScale = MeshSac;
     }
 }
