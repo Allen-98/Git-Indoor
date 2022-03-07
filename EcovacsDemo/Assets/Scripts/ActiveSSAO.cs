@@ -9,10 +9,12 @@ public class ActiveSSAO : MonoBehaviour
 
     public SimpleScreenSpaceAmbientOcclusion sssao;
 
+
     // Start is called before the first frame update
     void Start()
     {
         sssao.enabled = true;
+
     }
 
     // Update is called once per frame
@@ -26,6 +28,7 @@ public class ActiveSSAO : MonoBehaviour
         if (sssao.enabled)
         {
             sssao.enabled = false;
+
         }
         else
         {

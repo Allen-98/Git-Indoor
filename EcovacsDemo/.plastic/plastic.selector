@@ -1,0 +1,4 @@
+repository "EcovacsDemo@Ecovacs@cloud"
+  path "/"
+    br "/main"
+    co "/main"
