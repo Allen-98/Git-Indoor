@@ -46,6 +46,9 @@ public class GestureControllerSimple : MonoBehaviour, IPointerClickHandler
 
     private Vector3 defaultPosition;
     private Vector3 defaultRotation;
+    private Vector3 lastPosition;
+    private float maxDis = 20;
+    private float minDis = 3;
 
     void Awake()
     {
@@ -183,8 +186,26 @@ public class GestureControllerSimple : MonoBehaviour, IPointerClickHandler
         //Debug.Log("==motion.normalized * mag==" + motion.normalized * mag);
         //target.transform.position += motion.normalized;
 
-        transform.Translate(Vector3.left * (delta.x * moveSpeed));
-        transform.Translate(Vector3.up * (-delta.y * moveSpeed));
+        if (this.transform.position.y > 0)
+        {
+            lastPosition = transform.position;
+            if (this.transform.position.y < 1)
+            {
+                if (delta.y > 0)
+                {
+                    return;
+                }
+            }
+
+            transform.Translate(Vector3.left * (delta.x * moveSpeed));
+            transform.Translate(Vector3.up * (-delta.y * moveSpeed));
+
+        }
+        else
+        {
+            transform.position = lastPosition;
+        }
+
 
 
     }
@@ -224,8 +245,26 @@ public class GestureControllerSimple : MonoBehaviour, IPointerClickHandler
 
         */
 
-        transform.RotateAround(originPos.transform.position, Vector3.up, delta.x * rotateSpeed);
-        transform.RotateAround(originPos.transform.position, transform.right, delta.y * rotateSpeed);
+        if (this.transform.position.y > 0)
+        {
+            lastPosition = transform.position;
+            if (this.transform.position.y < 1)
+            {
+                if (delta.y < 0)
+                {
+                    return;
+                }
+            }
+
+            transform.RotateAround(originPos.transform.position, Vector3.up, delta.x * rotateSpeed);
+            transform.RotateAround(originPos.transform.position, transform.right, delta.y * rotateSpeed);
+
+        }
+        else
+        {
+            transform.position = lastPosition;
+        }
+
 
 
 
@@ -249,6 +288,16 @@ public class GestureControllerSimple : MonoBehaviour, IPointerClickHandler
         m_3D_ScaleRatio = Mathf.Clamp(m_3D_ScaleRatio, 0.6f, 2f);
         target.transform.localScale = Vector3.one * m_3D_ScaleRatio;
         */
+
+        if (Vector3.Distance(this.transform.position, originPos.position) < minDis && delta > 0)
+        {
+            return;
+        }
+
+        if(Vector3.Distance(this.transform.position, originPos.position) > maxDis && delta < 0)
+        {
+            return;
+        }
 
         transform.Translate(Vector3.forward * delta * zoomSpeed);
 

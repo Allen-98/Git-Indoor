@@ -89,6 +89,10 @@ public class GenMesh : MonoBehaviour
             if (Physics.Raycast(rays, out hit))
             {
                 //获取被射线碰到的对象transfrom变量
+                if (hit.transform.gameObject.tag != "mesh")
+                {
+                    return;
+                }
                 currentObject = hit.transform;
                 Debug.Log(currentObject.name);
                 if (currentObject.gameObject.GetComponent<MeshRenderer>().enabled)
@@ -407,6 +411,7 @@ public class GenMesh : MonoBehaviour
                 go.name = "MeshObj_" + ColorIndicesKVP.Key;
                 go.transform.SetParent(MeshMap.transform);
                 go.transform.position = new Vector3(0, 0, 0);
+                go.tag = "mesh";
                 mesh = new Mesh();
                 mf = go.AddComponent<MeshFilter>();
                 mr = go.AddComponent<MeshRenderer>();
