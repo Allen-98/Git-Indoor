@@ -184,7 +184,7 @@ public class GestureControllerSimple : MonoBehaviour, IPointerClickHandler
         //var mag = motion.magnitude;
         //// motion.y = 0;
         //Debug.Log("==motion.normalized * mag==" + motion.normalized * mag);
-        //target.transform.position += motion.normalized;
+        //target.transform.position += motion.normalized;v
 
         if (this.transform.position.y > 0)
         {
