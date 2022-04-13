@@ -32,9 +32,7 @@ public class SceneChanges : MonoBehaviour
         if (isDay)
         {
             isDay = false;
-            dayFloor.SetActive(false);
             dayLights.SetActive(false);
-            nightFloor.SetActive(true);
             nightLights.SetActive(true);
 
             RenderSettings.ambientLight = new Color(102/255f, 100 / 255f, 99 / 255f);
@@ -42,9 +40,7 @@ public class SceneChanges : MonoBehaviour
         else
         {
             isDay = true;
-            dayFloor.SetActive(true);
             dayLights.SetActive(true);
-            nightFloor.SetActive(false);
             nightLights.SetActive(false);
 
             RenderSettings.ambientLight = new Color(1, 1, 1);

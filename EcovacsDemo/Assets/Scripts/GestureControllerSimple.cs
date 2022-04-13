@@ -189,6 +189,7 @@ public class GestureControllerSimple : MonoBehaviour, IPointerClickHandler
         if (this.transform.position.y > 0)
         {
             lastPosition = transform.position;
+
             if (this.transform.position.y < 1)
             {
                 if (delta.y > 0)
@@ -245,6 +246,11 @@ public class GestureControllerSimple : MonoBehaviour, IPointerClickHandler
 
         */
 
+        float angle = this.transform.localEulerAngles.x;
+        
+        angle = ClampAngle2(angle, 0, 90);
+        Debug.Log(angle);
+
         if (this.transform.position.y > 0)
         {
             lastPosition = transform.position;
@@ -257,15 +263,18 @@ public class GestureControllerSimple : MonoBehaviour, IPointerClickHandler
             }
 
             transform.RotateAround(originPos.transform.position, Vector3.up, delta.x * rotateSpeed);
-            transform.RotateAround(originPos.transform.position, transform.right, delta.y * rotateSpeed);
+
+            if(angle > 0 || angle < 90)
+            {
+                transform.RotateAround(originPos.transform.position, transform.right, delta.y * rotateSpeed);
+
+            }
 
         }
         else
         {
             transform.position = lastPosition;
         }
-
-
 
 
     }
@@ -329,19 +338,15 @@ public class GestureControllerSimple : MonoBehaviour, IPointerClickHandler
         return Mathf.Clamp(angle, min, max);
     }
 
-
     public void ResetRatio()
     {
         m_3D_ScaleRatio = 1;
     }
 
-
-
     public void OnPointerClick(PointerEventData eventData)
     {
 
     }
-
 
     void Update()
     {
@@ -370,6 +375,7 @@ public class GestureControllerSimple : MonoBehaviour, IPointerClickHandler
             }
         }
     }
+
     public void DetectGroundArea()
     {
         if (Camera.main != null)
@@ -396,6 +402,7 @@ public class GestureControllerSimple : MonoBehaviour, IPointerClickHandler
             Debug.Log("==DetectGroundArea== failed");
         }
     }
+
     public void OnFingerTap(int fingerIndex, Vector2 fingerPos, int tapCount)
     {
         Debug.Log("ges==OnFingerTap==");
@@ -407,6 +414,7 @@ public class GestureControllerSimple : MonoBehaviour, IPointerClickHandler
             Debug.Log("ges== layer --" + furniture_chosed.layer);
         }
     }
+
     void OnDestroy()
     {
         Debug.Log("OnDestroy");
@@ -418,4 +426,25 @@ public class GestureControllerSimple : MonoBehaviour, IPointerClickHandler
         transform.position = defaultPosition;
         transform.rotation = Quaternion.Euler(defaultRotation);
     }
+
+    public float ClampAngle2(float angle, float minRotation, float maxRotation)
+    {
+        if (angle < 90 || angle > 270)
+        {
+            if (angle > 180) angle -= 360;
+            if (maxRotation > 180) maxRotation -= 360;
+            if (minRotation > 180) minRotation -= 360;
+        }
+
+        angle = Mathf.Clamp(angle, minRotation, maxRotation);
+
+        if (angle < 0) angle += 360;
+
+        return angle;
+
+
+    }
+
+
+
 }
