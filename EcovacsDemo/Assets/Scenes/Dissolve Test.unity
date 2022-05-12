@@ -855,7 +855,7 @@ GameObject:
   - component: {fileID: 772685476}
   - component: {fileID: 772685475}
   m_Layer: 0
-  m_Name: "\u95E8\u69DB\u969C\u788D (1)"
+  m_Name: "\u95E8\u69DB\u969C\u788D - \u84DD\u8272"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1896,12 +1896,9 @@ GameObject:
   - component: {fileID: 1581154574}
   - component: {fileID: 1581154573}
   - component: {fileID: 1581154575}
-  - component: {fileID: 1581154576}
-  - component: {fileID: 1581154577}
   - component: {fileID: 1581154578}
   - component: {fileID: 1581154580}
-  - component: {fileID: 1581154581}
-  - component: {fileID: 1581154582}
+  - component: {fileID: 1581154579}
   m_Layer: 0
   m_Name: Game Mangaer
   m_TagString: Untagged
@@ -1953,33 +1950,6 @@ MonoBehaviour:
   dayFloor: {fileID: 0}
   nightFloor: {fileID: 2061279582}
   isDay: 1
---- !u!114 &1581154576
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1581154572}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f2ab5f4f97b9a845a481e2ef7918bf1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  button: {fileID: 0}
-  Objs: []
---- !u!114 &1581154577
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1581154572}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c00ac11cddf6a0e4cabaeb980ecd0f5c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  panel: {fileID: 0}
 --- !u!114 &1581154578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1996,6 +1966,24 @@ MonoBehaviour:
   - {fileID: 1034283379}
   - {fileID: 1642643006}
   - {fileID: 130594178}
+--- !u!114 &1581154579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1581154572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f01448d281de39844b3343bf2046f4e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  window: {fileID: 1997459617159730336}
+  yellowFW: {fileID: 4614800192173178903}
+  mt_window: {fileID: 2100000, guid: 02e4fef959c4d8e448b047be48b327a6, type: 2}
+  mt_redFW: {fileID: 2100000, guid: bce55338014f4154685f1e26ac04efee, type: 2}
+  mt_yellowFW: {fileID: 2100000, guid: 1cf2ca43fab312942b4c3a8780ab2f7f, type: 2}
+  mt_blueFW: {fileID: 2100000, guid: e4c10854bfc944cbf88463adfee9d74d, type: 2}
 --- !u!114 &1581154580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2009,38 +1997,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sssao: {fileID: 963194231}
---- !u!114 &1581154581
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1581154572}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f26556cf17957c45a15996e5b6fc027, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shanGeFloor: {fileID: 0}
---- !u!114 &1581154582
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1581154572}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2449642abd5de47d397402084ffe74b8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isThread: 1
-  DrawSeparated: 1
-  MeshMap: {fileID: 0}
-  MeshPos: {x: -6.77, y: 0.08, z: -4.64}
-  MeshRot: {x: 90, y: 0, z: 0}
-  MeshSac: {x: 0.05596117, y: 0.05596117, z: 0.05596117}
-  smooth: 3
 --- !u!1 &1642643006
 GameObject:
   m_ObjectHideFlags: 0
@@ -2767,7 +2723,7 @@ GameObject:
   - component: {fileID: 2141028889}
   - component: {fileID: 2141028888}
   m_Layer: 0
-  m_Name: "\u533A\u57DF\u969C\u788D"
+  m_Name: "\u533A\u57DF\u969C\u788D - \u84DD\u8272"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3886,7 +3842,7 @@ GameObject:
   - component: {fileID: 3020175220616907668}
   - component: {fileID: 16167126965073629}
   m_Layer: 0
-  m_Name: "\u95E8\u69DB\u969C\u788D"
+  m_Name: "\u95E8\u69DB\u969C\u788D - \u7EA2\u8272"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4353,7 +4309,7 @@ GameObject:
   - component: {fileID: 1090467443964460574}
   - component: {fileID: 2623694826241829984}
   m_Layer: 0
-  m_Name: "\u7ACB\u65B9\u4F53_1_2"
+  m_Name: "\u9EC4\u8272\u865A\u62DF\u5899"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4731,7 +4687,7 @@ GameObject:
   - component: {fileID: 1163097968171820175}
   - component: {fileID: 7599958143051048701}
   m_Layer: 0
-  m_Name: "\u7ACB\u65B9\u4F53_2"
+  m_Name: "\u7EA2\u8272\u865A\u62DF\u5899"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5065,7 +5021,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f855b547d9e1208439c6e3c37f63ce9e, type: 2}
+  - {fileID: 2100000, guid: bce55338014f4154685f1e26ac04efee, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
