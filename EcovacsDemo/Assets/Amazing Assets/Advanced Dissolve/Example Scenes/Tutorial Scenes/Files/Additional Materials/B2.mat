@@ -200,7 +200,7 @@ Material:
     - _AdvancedDissolveCutoutSimpleMapsScreenSpaceUVScale: 0
     - _AdvancedDissolveCutoutSimpleMapsTriplanarMappingSpace: 0
     - _AdvancedDissolveCutoutStandardBaseInvert: 0
-    - _AdvancedDissolveCutoutStandardClip: 0.201
+    - _AdvancedDissolveCutoutStandardClip: 0.296
     - _AdvancedDissolveCutoutStandardMap1Channel: 3
     - _AdvancedDissolveCutoutStandardMap1Intensity: 1
     - _AdvancedDissolveCutoutStandardMap1Invert: 0
@@ -424,6 +424,7 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0.007843138, a: 1}
     - _EmissiveColor: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.9150943, g: 0.9150943, b: 0.9150943, a: 1}
+  m_BuildTextureStacks: []
 --- !u!114 &6724039819652240116
 MonoBehaviour:
   m_ObjectHideFlags: 11

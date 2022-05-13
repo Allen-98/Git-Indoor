@@ -14,8 +14,12 @@ public class DTT : MonoBehaviour
     public GameObject redFw2;
     public GameObject dayLights;
     public GameObject nightLights;
-
-
+    public Light[] lights;
+    public GameObject pivot;
+    public GameObject airbot;
+    public GameObject blanket;
+    public GameObject socks;
+    public GameObject shoes;
 
 
     [Header("Materials")]
@@ -23,6 +27,7 @@ public class DTT : MonoBehaviour
     public Material mt_redFW;
     public Material mt_yellowFW;
     public Material mt_blueFW;
+    public Material mt_blanket;
 
 
 
@@ -30,22 +35,19 @@ public class DTT : MonoBehaviour
     private float yellowValue;
     private float blueValue;
     private float redValue;
+    private float blanketValue;
 
     private float sceneColorValue;
+    private float lightIntensity;
+    private float pivotValue;
+
+    private bool over;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        mt_window.SetFloat("_FrostIntensity", 1f);
-        mt_yellowFW.SetColor("_Color", new Color(1, 1, 1, 1));
-        mt_blueFW.SetColor("_Color", new Color(1, 1, 1, 1));
-        mt_redFW.SetColor("_Color", new Color(1, 1, 1, 1));
-
-
-
-        RenderSettings.ambientLight = new Color(1, 1, 1);
-        sceneColorValue = 1f;
+        StartSettings();
 
     }
 
@@ -53,12 +55,42 @@ public class DTT : MonoBehaviour
     void Update()
     {
 
-        WindowRemove();
-        YellowFWRemove();
-        BlueFWRemove();
-        RedFWRemove();
-        SceneLightChange();
+        SceneChange1();
 
+        if (over)
+        {
+            if (airbot.transform.position.x < 0.6)
+            {
+                airbot.transform.Translate(Vector3.right * Time.deltaTime);
+
+            }
+        }
+
+    }
+
+    public void StartSettings()
+    {
+        over = false;
+
+        mt_window.SetFloat("_FrostIntensity", 1f);
+        mt_yellowFW.SetColor("_Color", new Color(1, 1, 1, 1));
+        mt_blueFW.SetColor("_Color", new Color(1, 1, 1, 1));
+        mt_redFW.SetColor("_Color", new Color(1, 1, 1, 1));
+        mt_blanket.SetFloat("_AdvancedDissolveCutoutStandardClip", 0f);
+
+        foreach (Light i in lights)
+        {
+            i.intensity = 0;
+        }
+        lightIntensity = 0;
+
+        RenderSettings.ambientLight = new Color(1, 1, 1);
+        sceneColorValue = 1f;
+
+        pivot.transform.position = new Vector3(0, 3.3f, 0);
+        pivotValue = pivot.transform.position.y;
+
+        airbot.transform.position = new Vector3(-1.5f, 0.03f, 0.3f);
     }
 
     public void WindowRemove()
@@ -67,7 +99,7 @@ public class DTT : MonoBehaviour
 
         if (windowValue > 0)
         {
-            mt_window.SetFloat("_FrostIntensity", windowValue - 0.005f);
+            mt_window.SetFloat("_FrostIntensity", windowValue - 0.003f);
         }
         else
         {
@@ -83,7 +115,7 @@ public class DTT : MonoBehaviour
 
         if (yellowValue > 0)
         {
-            yellowValue -= 0.005f;
+            yellowValue -= 0.003f;
 
             mt_yellowFW.SetColor("_Color", new Color(1, 1, 1, yellowValue));
 
@@ -102,7 +134,7 @@ public class DTT : MonoBehaviour
 
         if (blueValue > 0)
         {
-            blueValue -= 0.005f;
+            blueValue -= 0.003f;
 
             mt_blueFW.SetColor("_Color", new Color(1, 1, 1, blueValue));
 
@@ -122,7 +154,7 @@ public class DTT : MonoBehaviour
 
         if (redValue > 0)
         {
-            redValue -= 0.005f;
+            redValue -= 0.003f;
 
             mt_redFW.SetColor("_Color", new Color(1, 1, 1, redValue));
 
@@ -141,17 +173,63 @@ public class DTT : MonoBehaviour
 
         if (sceneColorValue > 0.4)
         {
-            sceneColorValue -= 0.001f;
+            sceneColorValue -= 0.002f;
             RenderSettings.ambientLight = new Color(sceneColorValue, sceneColorValue, sceneColorValue);
 
-        }
-        else
+        } 
+        else if (sceneColorValue < 0.99)
         {
             dayLights.SetActive(false);
             nightLights.SetActive(true);
+
+            if (lightIntensity < 2.25)
+            {
+                lightIntensity += 0.005f;
+                foreach (Light i in lights)
+                {
+                    i.intensity = lightIntensity;
+                }
+
+            }
+
+            if (pivotValue > 0)
+            {
+                pivot.transform.position = new Vector3(0, pivotValue -= 0.01f, 0);
+            }
+            else
+            {
+                over = true;
+            }
+        } 
+
+
+    }
+
+    public void BlanketRemove()
+    {
+        blanketValue = mt_blanket.GetFloat("_AdvancedDissolveCutoutStandardClip");
+
+        if (blanketValue < 1)
+        {
+            blanketValue += 0.003f;
+            mt_blanket.SetFloat("_AdvancedDissolveCutoutStandardClip", blanketValue);
         }
+        else
+        {
+            blanket.SetActive(false);
+            shoes.SetActive(false);
+            socks.SetActive(false);
+        }
+    }
 
-
+    public void SceneChange1()
+    {
+        WindowRemove();
+        YellowFWRemove();
+        BlueFWRemove();
+        RedFWRemove();
+        BlanketRemove();
+        SceneLightChange();
     }
 
 }
