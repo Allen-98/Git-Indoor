@@ -343,7 +343,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d88748cc2e21bc7478c891e55173be45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  globalControlID: 0
+  globalControlID: 1
   materials:
   - {fileID: 2100000, guid: ee31d119cf48e42d693cd18ff4377a21, type: 2}
   state: 1
@@ -714,7 +714,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc14e87fe28d4784080c6918b96d71a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  globalControlID: 1
+  globalControlID: 2
   materials:
   - {fileID: 2100000, guid: f46f6222f35adb240831b33667fe8964, type: 2}
   - {fileID: 2100000, guid: bef261d1d2e8f22469b160906d331a94, type: 2}
@@ -1278,8 +1278,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d88748cc2e21bc7478c891e55173be45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  globalControlID: 1
+  globalControlID: 2
   materials:
+  - {fileID: 2100000, guid: 0fb5b6dc03f292a4ab5455628345b59b, type: 2}
+  - {fileID: 2100000, guid: 0fb5b6dc03f292a4ab5455628345b59b, type: 2}
+  - {fileID: 2100000, guid: 0fb5b6dc03f292a4ab5455628345b59b, type: 2}
+  - {fileID: 2100000, guid: ee31d119cf48e42d693cd18ff4377a21, type: 2}
+  - {fileID: 2100000, guid: 0fb5b6dc03f292a4ab5455628345b59b, type: 2}
+  - {fileID: 2100000, guid: ee31d119cf48e42d693cd18ff4377a21, type: 2}
+  - {fileID: 2100000, guid: 0fb5b6dc03f292a4ab5455628345b59b, type: 2}
+  - {fileID: 2100000, guid: 0fb5b6dc03f292a4ab5455628345b59b, type: 2}
+  - {fileID: 2100000, guid: 0fb5b6dc03f292a4ab5455628345b59b, type: 2}
+  - {fileID: 2100000, guid: 0fb5b6dc03f292a4ab5455628345b59b, type: 2}
+  - {fileID: 2100000, guid: fb67ca1f7d4684cbb85ffa8041f3005a, type: 2}
+  - {fileID: 2100000, guid: 0fb5b6dc03f292a4ab5455628345b59b, type: 2}
+  - {fileID: 2100000, guid: 0fb5b6dc03f292a4ab5455628345b59b, type: 2}
+  - {fileID: 2100000, guid: 0fb5b6dc03f292a4ab5455628345b59b, type: 2}
+  - {fileID: 2100000, guid: 0fb5b6dc03f292a4ab5455628345b59b, type: 2}
+  - {fileID: 2100000, guid: 0fb5b6dc03f292a4ab5455628345b59b, type: 2}
+  - {fileID: 2100000, guid: 0fb5b6dc03f292a4ab5455628345b59b, type: 2}
+  - {fileID: 2100000, guid: ee31d119cf48e42d693cd18ff4377a21, type: 2}
+  - {fileID: 2100000, guid: bb43cd65c66f343e58d840ef09565f93, type: 2}
+  - {fileID: 2100000, guid: 0fb5b6dc03f292a4ab5455628345b59b, type: 2}
+  - {fileID: 2100000, guid: ee31d119cf48e42d693cd18ff4377a21, type: 2}
+  - {fileID: 2100000, guid: 0fb5b6dc03f292a4ab5455628345b59b, type: 2}
+  - {fileID: 2100000, guid: 0fb5b6dc03f292a4ab5455628345b59b, type: 2}
+  - {fileID: 2100000, guid: 0fb5b6dc03f292a4ab5455628345b59b, type: 2}
   - {fileID: 2100000, guid: 0fb5b6dc03f292a4ab5455628345b59b, type: 2}
   state: 1
   cutoutStandardSource: 2
@@ -1332,7 +1356,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 483b807ffb020c943abd58c5f25e7ffe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  globalControlID: 0
+  globalControlID: 1
   materials:
   - {fileID: 2100000, guid: ee31d119cf48e42d693cd18ff4377a21, type: 2}
   updateMode: 2
@@ -1429,7 +1453,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1108506538}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3.3, z: 0}
+  m_LocalPosition: {x: 0, y: 2.79, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1494,7 +1518,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 483b807ffb020c943abd58c5f25e7ffe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  globalControlID: 1
+  globalControlID: 2
   materials:
   - {fileID: 2100000, guid: f46f6222f35adb240831b33667fe8964, type: 2}
   - {fileID: 2100000, guid: bef261d1d2e8f22469b160906d331a94, type: 2}
@@ -2112,6 +2136,7 @@ MonoBehaviour:
   blanket: {fileID: 945113159646757103}
   socks: {fileID: 8945277556959953029}
   shoes: {fileID: 1223366314261151674}
+  circle: {fileID: 802980003}
   mt_window: {fileID: 2100000, guid: 02e4fef959c4d8e448b047be48b327a6, type: 2}
   mt_redFW: {fileID: 2100000, guid: bce55338014f4154685f1e26ac04efee, type: 2}
   mt_yellowFW: {fileID: 2100000, guid: 1cf2ca43fab312942b4c3a8780ab2f7f, type: 2}
@@ -2661,7 +2686,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc14e87fe28d4784080c6918b96d71a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  globalControlID: 0
+  globalControlID: 1
   materials:
   - {fileID: 2100000, guid: ee31d119cf48e42d693cd18ff4377a21, type: 2}
   updateMode: 1
@@ -2673,7 +2698,7 @@ MonoBehaviour:
   xyzSpace: 0
   xyzRollout: 0
   xyzPivotPointTransform: {fileID: 1108506539}
-  xyzPivotPointPosition: {x: 0, y: 3.3, z: 0}
+  xyzPivotPointPosition: {x: 0, y: 2.79, z: 0}
   target1StartPointTransform: {fileID: 0}
   target1EndPointTransform: {fileID: 0}
   target1StartPointPosition: {x: 0, y: 0, z: 0}

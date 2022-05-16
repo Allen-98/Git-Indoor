@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
+using AmazingAssets.AdvancedDissolve;
 
 public class DTT : MonoBehaviour
 {
@@ -20,7 +21,7 @@ public class DTT : MonoBehaviour
     public GameObject blanket;
     public GameObject socks;
     public GameObject shoes;
-
+    public AdvancedDissolveGeometricCutoutController circle;
 
     [Header("Materials")]
     public Material mt_window;
@@ -29,7 +30,7 @@ public class DTT : MonoBehaviour
     public Material mt_blueFW;
     public Material mt_blanket;
 
-
+    
 
     private float windowValue;
     private float yellowValue;
@@ -40,6 +41,7 @@ public class DTT : MonoBehaviour
     private float sceneColorValue;
     private float lightIntensity;
     private float pivotValue;
+    private float radius;
 
     private bool over;
 
@@ -63,6 +65,15 @@ public class DTT : MonoBehaviour
             {
                 airbot.transform.Translate(Vector3.right * Time.deltaTime);
 
+            }
+            else
+            {
+                radius = circle.target1Radius;
+                if (radius < 10)
+                {
+                    radius += 0.01f;
+                    circle.target1Radius = radius;
+                }
             }
         }
 
