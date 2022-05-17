@@ -21,6 +21,10 @@ public class DTT : MonoBehaviour
     public GameObject socks;
     public GameObject shoes;
     public AdvancedDissolveGeometricCutoutController circle;
+    public GameObject boom;
+    public GameObject pivot;
+    public GameObject indoor;
+
 
     [Header("Materials")]
     public Material mt_window;
@@ -30,14 +34,13 @@ public class DTT : MonoBehaviour
     public Material mt_blanket;
     public Material mt_shoes;
     public Material mt_socks;
-
+    public Material mt_airbot_main;
+    public Material mt_airbot_top;
+    public Material mt_airbot_text;
 
     private float removeValue;
-    private float windowValue;
-    private float yellowValue;
-    private float blueValue;
-    private float redValue;
-    private float blanketValue;
+    private float airbotValue;
+    private float boomValue;
 
     private float sceneColorValue;
     private float lightIntensity;
@@ -45,6 +48,8 @@ public class DTT : MonoBehaviour
 
     private bool over;
     private bool over1;
+
+    private float pivotY;
 
 
     // Start is called before the first frame update
@@ -76,14 +81,55 @@ public class DTT : MonoBehaviour
             else
             {
                 radius = circle.target1Radius;
+
+                if(pivotY > -10)
+                {
+                    pivotY -= 0.02f;
+                    pivot.transform.localPosition = new Vector3(0, pivotY, 0);
+                }
+                else
+                {
+                    pivot.SetActive(false);
+                }
+
+
                 if (radius < 7)
                 {
                     radius += 0.01f;
                     circle.target1Radius = radius;
+
+                    if (airbotValue < 1)
+                    {
+                        airbotValue += 0.003f;
+                        mt_airbot_top.SetFloat("_AdvancedDissolveCutoutStandardClip", airbotValue);
+                        mt_airbot_main.SetFloat("_AdvancedDissolveCutoutStandardClip", airbotValue);
+                        mt_airbot_text.SetFloat("_AdvancedDissolveCutoutStandardClip", airbotValue);
+                    }else
+                    {
+                        airbot.SetActive(false);
+                    }
+
+                    if (boomValue < 100)
+                    {
+                        boomValue += 0.8f;
+                        boom.transform.localScale = new Vector3(boomValue, boomValue, boomValue);
+                    }
+                    else
+                    {
+                        boom.SetActive(false);
+                    }
+
+
+
                 } else if (radius >= 7 && radius < 380)
                 {
                     radius += 5f;
                     circle.target1Radius = radius;
+                }
+                else
+                {
+                    circle.gameObject.SetActive(false);
+                    indoor.SetActive(false);
                 }
             }
         }
@@ -94,6 +140,14 @@ public class DTT : MonoBehaviour
     {
         over = false;
         over1 = false;
+
+        pivotY = 3.8f;
+        pivot.transform.localPosition = new Vector3(0, pivotY, 0);
+
+        airbotValue = 0;
+        mt_airbot_main.SetFloat("_AdvancedDissolveCutoutStandardClip", airbotValue);
+        mt_airbot_text.SetFloat("_AdvancedDissolveCutoutStandardClip", airbotValue);
+        mt_airbot_top.SetFloat("_AdvancedDissolveCutoutStandardClip", airbotValue);
 
         mt_window.SetFloat("_FrostIntensity", 1f);
         mt_yellowFW.SetColor("_Color", new Color(1, 1, 1, 1));
@@ -110,6 +164,13 @@ public class DTT : MonoBehaviour
         sceneColorValue = 1f;
 
         airbot.transform.position = new Vector3(-1.5f, 0.03f, 0.3f);
+
+        circle.target1Radius = 0;
+
+        boomValue = 0;
+        boom.transform.localScale = new Vector3(0, 0, 0);
+
+
     }
 
     public void ThingsRemove()

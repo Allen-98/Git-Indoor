@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Blacksmith_planks 1
   m_Shader: {fileID: 4800000, guid: 977ce85d64e1849409668a559c7d1c4d, type: 3}
-  m_ShaderKeywords: SMOOTHNESS_IN_ALBEDO _AD_CUTOUT_GEOMETRIC_COUNT_ONE _AD_CUTOUT_GEOMETRIC_TYPE_SPHERE
+  m_ShaderKeywords: SMOOTHNESS_IN_ALBEDO _AD_CUTOUT_GEOMETRIC_COUNT_ONE _AD_CUTOUT_GEOMETRIC_TYPE_CONE_SMOOTH
     _AD_CUTOUT_STANDARD_MAPS_MAPPING_TYPE_TRIPLANAR _AD_CUTOUT_STANDARD_SOURCE_CUSTOM_MAP
     _AD_CUTOUT_STANDARD_SOURCE_MAPS_MAPPING_TYPE_TRIPLANAR _AD_EDGE_ADDITIONAL_COLOR_NONE
     _AD_EDGE_BASE_SOURCE_CUTOUT_GEOMETRIC _AD_EDGE_BASE_SOURCE_CUTOUT_PARAMETRIC
@@ -197,7 +197,7 @@ Material:
     - _AdvancedDissolveEdgeGIMetaPassMultiplier: 1
     - _AdvancedDissolveEdgeUVDistortionStrength: 0
     - _AdvancedDissolveKeywordCutoutGeometricCount: 0
-    - _AdvancedDissolveKeywordCutoutGeometricType: 3
+    - _AdvancedDissolveKeywordCutoutGeometricType: 6
     - _AdvancedDissolveKeywordCutoutParametricCount: 0
     - _AdvancedDissolveKeywordCutoutParametricType: 3
     - _AdvancedDissolveKeywordCutoutSimpleMapsMappingType: 1
