@@ -15,7 +15,6 @@ public class DTT : MonoBehaviour
     public GameObject redFw2;
     public GameObject dayLights;
     public GameObject nightLights;
-    public Light[] lights;
     public GameObject airbot;
     public GameObject blanket;
     public GameObject socks;
@@ -24,6 +23,11 @@ public class DTT : MonoBehaviour
     public GameObject boom;
     public GameObject pivot;
     public GameObject indoor;
+    public GameObject deebot;
+    public GameObject ship;
+    
+
+    public Light[] lights;
 
 
     [Header("Materials")]
@@ -37,11 +41,14 @@ public class DTT : MonoBehaviour
     public Material mt_airbot_main;
     public Material mt_airbot_top;
     public Material mt_airbot_text;
+    public Material mt_deebot_main;
+    public Material mt_deebot_text;
 
     private float removeValue;
     private float airbotValue;
     private float boomValue;
-
+    private float deebotScaleValue;
+    private float deebotValue;
     private float sceneColorValue;
     private float lightIntensity;
     private float radius;
@@ -84,7 +91,7 @@ public class DTT : MonoBehaviour
 
                 if(pivotY > -10)
                 {
-                    pivotY -= 0.02f;
+                    pivotY -= 0.005f;
                     pivot.transform.localPosition = new Vector3(0, pivotY, 0);
                 }
                 else
@@ -95,12 +102,12 @@ public class DTT : MonoBehaviour
 
                 if (radius < 7)
                 {
-                    radius += 0.01f;
+                    radius += 0.005f;
                     circle.target1Radius = radius;
 
                     if (airbotValue < 1)
                     {
-                        airbotValue += 0.003f;
+                        airbotValue += 0.001f;
                         mt_airbot_top.SetFloat("_AdvancedDissolveCutoutStandardClip", airbotValue);
                         mt_airbot_main.SetFloat("_AdvancedDissolveCutoutStandardClip", airbotValue);
                         mt_airbot_text.SetFloat("_AdvancedDissolveCutoutStandardClip", airbotValue);
@@ -119,6 +126,25 @@ public class DTT : MonoBehaviour
                         boom.SetActive(false);
                     }
 
+                    if (deebotScaleValue < 1)
+                    {
+                        deebotScaleValue += 0.008f;
+                        deebot.transform.localScale = new Vector3(deebotScaleValue, deebotScaleValue, deebotScaleValue);
+
+                    }
+                    else
+                    {
+                        if (deebotValue < 1)
+                        {
+                            deebotValue += 0.001f;
+                            mt_deebot_main.SetFloat("_AdvancedDissolveCutoutStandardClip", deebotValue);
+                            mt_deebot_text.SetFloat("_AdvancedDissolveCutoutStandardClip", deebotValue);
+                        }
+                        else
+                        {
+                            deebot.SetActive(false);
+                        }
+                    }
 
 
                 } else if (radius >= 7 && radius < 380)
@@ -170,6 +196,14 @@ public class DTT : MonoBehaviour
         boomValue = 0;
         boom.transform.localScale = new Vector3(0, 0, 0);
 
+        deebotScaleValue = 0.1f;
+        deebot.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+
+        deebotValue = 0f;
+        mt_deebot_main.SetFloat("_AdvancedDissolveCutoutStandardClip", deebotValue);
+        mt_deebot_text.SetFloat("_AdvancedDissolveCutoutStandardClip", deebotValue);
+
+
 
     }
 
@@ -179,7 +213,7 @@ public class DTT : MonoBehaviour
 
         if (removeValue > 0)
         {
-            removeValue -= 0.02f;
+            removeValue -= 0.005f;
 
             mt_window.SetFloat("_FrostIntensity", removeValue);
             mt_yellowFW.SetColor("_Color", new Color(1, 1, 1, removeValue));
@@ -207,7 +241,7 @@ public class DTT : MonoBehaviour
 
         if (sceneColorValue > 0.4)
         {
-            sceneColorValue -= 0.01f;
+            sceneColorValue -= 0.005f;
             RenderSettings.ambientLight = new Color(sceneColorValue, sceneColorValue, sceneColorValue);
 
         } 
@@ -217,7 +251,7 @@ public class DTT : MonoBehaviour
 
             if (lightIntensity < 2.4)
             {
-                lightIntensity += 0.03f;
+                lightIntensity += 0.01f;
                 foreach (Light i in lights)
                 { 
                     i.intensity = lightIntensity;
