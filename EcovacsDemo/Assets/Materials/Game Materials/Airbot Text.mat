@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Deebot Text
+  m_Name: Airbot Text
   m_Shader: {fileID: 4800000, guid: 977ce85d64e1849409668a559c7d1c4d, type: 3}
   m_ShaderKeywords: _AD_CUTOUT_GEOMETRIC_COUNT_ONE _AD_CUTOUT_GEOMETRIC_TYPE_NONE
     _AD_CUTOUT_STANDARD_MAPS_MAPPING_TYPE_TRIPLANAR _AD_CUTOUT_STANDARD_SOURCE_CUSTOM_MAP
@@ -205,7 +205,7 @@ Material:
     - _AdvancedDissolveCutoutSimpleMapsScreenSpaceUVScale: 0
     - _AdvancedDissolveCutoutSimpleMapsTriplanarMappingSpace: 0
     - _AdvancedDissolveCutoutStandardBaseInvert: 0
-    - _AdvancedDissolveCutoutStandardClip: 0.7129944
+    - _AdvancedDissolveCutoutStandardClip: 1.0009907
     - _AdvancedDissolveCutoutStandardMap1Channel: 3
     - _AdvancedDissolveCutoutStandardMap1Intensity: 1
     - _AdvancedDissolveCutoutStandardMap1Invert: 0
@@ -399,7 +399,7 @@ Material:
     - _AdvancedDissolveEdgeAdditionalColorMapOffset: {r: 0, g: 0, b: 0, a: 0}
     - _AdvancedDissolveEdgeAdditionalColorMapScroll: {r: 0, g: 0, b: 0, a: 0}
     - _AdvancedDissolveEdgeAdditionalColorMapTiling: {r: 1, g: 1, b: 1, a: 0}
-    - _AdvancedDissolveEdgeBaseColor: {r: 1, g: 0.40356088, b: 0, a: 1}
+    - _AdvancedDissolveEdgeBaseColor: {r: 1, g: 0.2696729, b: 0, a: 1}
     - _AdvancedDissolveEdgeBaseColorIntensity: {r: 1.5, g: 3.481689, b: 0, a: 0}
     - _AdvancedDissolveEdgeColor: {r: 0, g: 1, b: 0, a: 1}
     - _AdvancedDissolveEdgeColor2: {r: 1, g: 0, b: 0, a: 1}

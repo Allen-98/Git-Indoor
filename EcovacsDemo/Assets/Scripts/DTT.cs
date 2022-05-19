@@ -25,6 +25,8 @@ public class DTT : MonoBehaviour
     public GameObject indoor;
     public GameObject deebot;
     public GameObject ship;
+    public GameObject camera;
+    public GameObject fire;
     
 
     public Light[] lights;
@@ -43,15 +45,18 @@ public class DTT : MonoBehaviour
     public Material mt_airbot_text;
     public Material mt_deebot_main;
     public Material mt_deebot_text;
+    public Material mt_ship;
 
     private float removeValue;
     private float airbotValue;
     private float boomValue;
     private float deebotScaleValue;
     private float deebotValue;
+    private float deebotPosValue;
     private float sceneColorValue;
     private float lightIntensity;
     private float radius;
+    private float shipValue;
 
     private bool over;
     private bool over1;
@@ -100,10 +105,20 @@ public class DTT : MonoBehaviour
                 }
 
 
-                if (radius < 7)
+                if (radius < 380)
                 {
-                    radius += 0.005f;
-                    circle.target1Radius = radius;
+
+                    if (radius < 8)
+                    {
+                        radius += 0.005f;
+                        circle.target1Radius = radius;
+                    }
+                    else 
+                    {
+                        radius += 5f;
+                        circle.target1Radius = radius;
+                    }
+
 
                     if (airbotValue < 1)
                     {
@@ -124,6 +139,13 @@ public class DTT : MonoBehaviour
                     else
                     {
                         boom.SetActive(false);
+                        ship.SetActive(true);
+                    }
+
+                    if (deebotPosValue > 0)
+                    {
+                        deebotPosValue -= 0.01f;
+                        deebot.transform.localPosition = new Vector3(deebotPosValue, 0.04f, 0);
                     }
 
                     if (deebotScaleValue < 1)
@@ -143,14 +165,23 @@ public class DTT : MonoBehaviour
                         else
                         {
                             deebot.SetActive(false);
+
+                            if (shipValue > 0)
+                            {
+                                shipValue -= 0.01f;
+                                mt_ship.SetFloat("_AdvancedDissolveCutoutStandardClip", shipValue);
+
+                            }
+                            else
+                            {
+                                fire.SetActive(true);
+                                //fire.GetComponent<ParticleSystem>();
+                                camera.SetActive(true);
+                            }
                         }
                     }
 
 
-                } else if (radius >= 7 && radius < 380)
-                {
-                    radius += 5f;
-                    circle.target1Radius = radius;
                 }
                 else
                 {
@@ -164,6 +195,9 @@ public class DTT : MonoBehaviour
 
     public void StartSettings()
     {
+
+        indoor.SetActive(true);
+
         over = false;
         over1 = false;
 
@@ -200,10 +234,16 @@ public class DTT : MonoBehaviour
         deebot.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
 
         deebotValue = 0f;
+        deebotPosValue = 2.4f;
         mt_deebot_main.SetFloat("_AdvancedDissolveCutoutStandardClip", deebotValue);
         mt_deebot_text.SetFloat("_AdvancedDissolveCutoutStandardClip", deebotValue);
 
+        shipValue = 1f;
+        mt_ship.SetFloat("_AdvancedDissolveCutoutStandardClip", shipValue);
 
+        ship.SetActive(false);
+        camera.SetActive(false);
+        fire.SetActive(false);
 
     }
 
