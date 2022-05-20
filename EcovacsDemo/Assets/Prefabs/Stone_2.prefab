@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 4678876566046871858}
   - component: {fileID: 4678876566045774834}
   - component: {fileID: 4678876565014855093}
-  - component: {fileID: 4678876565014855092}
   - component: {fileID: -5325727482553530969}
+  - component: {fileID: -6517519567430463228}
   m_Layer: 0
   m_Name: Stone_2
   m_TagString: Enemy
@@ -100,20 +100,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!64 &4678876565014855092
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4678876566047706418}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: 8988c881874f4cb4db33f58b6a8e7416, type: 3}
 --- !u!114 &-5325727482553530969
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127,3 +113,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 20
+--- !u!64 &-6517519567430463228
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4678876566047706418}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -3505231035254027634, guid: 1ad13efa5a4dc47ef8922b914ceb063b, type: 3}

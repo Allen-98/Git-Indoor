@@ -33,7 +33,7 @@ public class AsteroidsGenerator : MonoBehaviour
 
     public Vector3 RandomPos()
     {
-        Vector3 pos = new Vector3(asteroidsList.transform.position.x + Random.Range(-maxX, maxX), 0, 100);
+        Vector3 pos = new Vector3(asteroidsList.transform.position.x + Random.Range(-maxX, maxX), 0, 80 );
         return pos;
     }
 

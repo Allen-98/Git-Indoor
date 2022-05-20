@@ -49,7 +49,7 @@ public class Player : MonoBehaviour
             PlayerDie();
         }
 
-        UpdateUI();
+        //UpdateUI();
     }
 
     private void OnTriggerEnter(Collider collision)
@@ -100,6 +100,9 @@ public class Player : MonoBehaviour
         healthText.text = ((int)currentHealth).ToString();
         bulletText.text = ((int)currentBullets).ToString();
     }
+
+
+
 
 
     

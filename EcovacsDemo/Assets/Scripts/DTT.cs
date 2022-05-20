@@ -1,4 +1,4 @@
-using System.Collections;
+    using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -27,7 +27,9 @@ public class DTT : MonoBehaviour
     public GameObject ship;
     public GameObject camera;
     public GameObject fire;
-    
+    public GameObject gameLight;
+
+    public Transform firePos; 
 
     public Light[] lights;
 
@@ -63,7 +65,7 @@ public class DTT : MonoBehaviour
 
     private float pivotY;
 
-
+        
     // Start is called before the first frame update
     void Start()
     {
@@ -187,6 +189,7 @@ public class DTT : MonoBehaviour
                 {
                     circle.gameObject.SetActive(false);
                     indoor.SetActive(false);
+                    gameLight.SetActive(true);  
                 }
             }
         }
@@ -195,6 +198,7 @@ public class DTT : MonoBehaviour
 
     public void StartSettings()
     {
+        gameLight.SetActive(false);
 
         indoor.SetActive(true);
 
