@@ -835,7 +835,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &802980003
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1055,7 +1055,7 @@ MonoBehaviour:
   target1EndPointTransform: {fileID: 0}
   target1StartPointPosition: {x: -2, y: 0.1586, z: 0.3}
   target1EndPointPosition: {x: -5.880684, y: 0.4602053, z: -7.1553063}
-  target1Radius: 0
+  target1Radius: 2.07
   target1Normal: {x: 0, y: 1, z: 0}
   target1Rotation: {x: 0, y: 0, z: 0}
   target1Size: {x: 1, y: 1, z: 1}
@@ -1114,7 +1114,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &843773834
 Transform:
   m_ObjectHideFlags: 0
@@ -1512,7 +1512,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1147318580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1520,7 +1520,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1147318579}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 483b807ffb020c943abd58c5f25e7ffe, type: 3}
   m_Name: 
@@ -1838,7 +1838,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1208606968
 Transform:
   m_ObjectHideFlags: 0
@@ -2099,25 +2099,28 @@ MonoBehaviour:
   redFw2: {fileID: 3035319379588578869}
   dayLights: {fileID: 517082608}
   nightLights: {fileID: 1771239921}
-  airbot: {fileID: 919132149186444145}
-  blanket: {fileID: 945113159646757103}
-  socks: {fileID: 8945277556959953029}
-  shoes: {fileID: 1223366314261151674}
-  circle: {fileID: 802980003}
-  boom: {fileID: 514732789}
-  pivot: {fileID: 843773833}
-  indoor: {fileID: 8134240751948905616}
-  deebot: {fileID: 919132147872640332}
-  ship: {fileID: 1771120833}
-  camera: {fileID: 1208606967}
-  fire: {fileID: 6630194452685743977}
   gameLight: {fileID: 181777079}
-  firePos: {fileID: 1023589132}
   lights:
   - {fileID: 1034283381}
   - {fileID: 1642643008}
   - {fileID: 1671620695}
   - {fileID: 299306639}
+  airbot: {fileID: 919132149186444145}
+  deebot: {fileID: 919132147872640332}
+  blanket: {fileID: 945113159646757103}
+  socks: {fileID: 8945277556959953029}
+  shoes: {fileID: 1223366314261151674}
+  boom: {fileID: 514732789}
+  pivot: {fileID: 843773833}
+  indoor: {fileID: 8134240751948905616}
+  player: {fileID: 1396522818}
+  ship: {fileID: 1771120833}
+  tailFire: {fileID: 6630194452685743977}
+  sceneCamera: {fileID: 963194225}
+  playerCamera: {fileID: 1208606967}
+  asteroidsList: {fileID: 938478977}
+  firePos: {fileID: 1023589132}
+  circle: {fileID: 802980003}
   mt_window: {fileID: 2100000, guid: 02e4fef959c4d8e448b047be48b327a6, type: 2}
   mt_redFW: {fileID: 2100000, guid: bce55338014f4154685f1e26ac04efee, type: 2}
   mt_yellowFW: {fileID: 2100000, guid: 1cf2ca43fab312942b4c3a8780ab2f7f, type: 2}
@@ -2460,7 +2463,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1768607258
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3100,7 +3103,7 @@ GameObject:
   - component: {fileID: 3469287837791713363}
   - component: {fileID: 1711813854804610201}
   m_Layer: 0
-  m_Name: DEEBOT 9
+  m_Name: Deebot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3136,7 +3139,7 @@ GameObject:
   - component: {fileID: 3469287837492932206}
   - component: {fileID: 1711813855644588708}
   m_Layer: 0
-  m_Name: "AC2109\u6C81\u5B9D\u4E3B\u673A"
+  m_Name: Airbot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5079,7 +5082,7 @@ GameObject:
   - component: {fileID: 6630194452685743978}
   - component: {fileID: 6630194452685743979}
   m_Layer: 0
-  m_Name: Fire
+  m_Name: Tail Fire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

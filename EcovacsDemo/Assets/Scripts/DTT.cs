@@ -13,25 +13,35 @@ public class DTT : MonoBehaviour
     public GameObject blueFW2;
     public GameObject redFW;
     public GameObject redFw2;
+
     public GameObject dayLights;    
     public GameObject nightLights;
+    public GameObject gameLight;
+    public Light[] lights;
+
     public GameObject airbot;
+    public GameObject deebot;
+
     public GameObject blanket;
     public GameObject socks;
     public GameObject shoes;
-    public AdvancedDissolveGeometricCutoutController circle;
+
     public GameObject boom;
     public GameObject pivot;
     public GameObject indoor;
-    public GameObject deebot;
+
+    public GameObject player;
     public GameObject ship;
-    public GameObject camera;
-    public GameObject fire;
-    public GameObject gameLight;
+    public GameObject tailFire;
+
+    public GameObject sceneCamera;
+    public GameObject playerCamera;
+    public GameObject asteroidsList;
 
     public Transform firePos; 
+    
 
-    public Light[] lights;
+    public AdvancedDissolveGeometricCutoutController circle;
 
 
     [Header("Materials")]
@@ -59,12 +69,9 @@ public class DTT : MonoBehaviour
     private float lightIntensity;
     private float radius;
     private float shipValue;
-
-    private bool over;
-    private bool over1;
-
     private float pivotY;
 
+    private int step = 0;
         
     // Start is called before the first frame update
     void Start()
@@ -76,134 +83,52 @@ public class DTT : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        SceneLightChange();
         
-        if (over)
+        
+        if (step == 0)
+        {
+            SceneLightChange();
+            
+        }
+
+        if (step == 1)
         {
             ThingsRemove();
         }
 
-
-
-        if (over1)
+        if (step == 2)
         {
-            if (airbot.transform.position.x < 0.6)
-            {
-                airbot.transform.Translate(Vector3.right * Time.deltaTime);
-
-            }
-            else
-            {
-                radius = circle.target1Radius;
-
-                if(pivotY > -10)
-                {
-                    pivotY -= 0.01f;
-                    pivot.transform.localPosition = new Vector3(0, pivotY, 0);
-                }
-                else
-                {
-                    pivot.SetActive(false);
-                }
-
-
-                if (radius < 380)
-                {
-
-                    if (radius < 8)
-                    {
-                        radius += 0.01f;
-                        circle.target1Radius = radius;
-                    }
-                    else 
-                    {
-                        radius += 5f;
-                        circle.target1Radius = radius;
-                    }
-
-
-                    if (airbotValue < 1)
-                    {
-                        airbotValue += 0.01f;
-                        mt_airbot_top.SetFloat("_AdvancedDissolveCutoutStandardClip", airbotValue);
-                        mt_airbot_main.SetFloat("_AdvancedDissolveCutoutStandardClip", airbotValue);
-                        mt_airbot_text.SetFloat("_AdvancedDissolveCutoutStandardClip", airbotValue);
-                    }else
-                    {
-                        airbot.SetActive(false);
-                    }
-
-                    if (boomValue < 100)
-                    {
-                        boomValue += 0.8f;
-                        boom.transform.localScale = new Vector3(boomValue, boomValue, boomValue);
-                    }
-                    else
-                    {
-                        boom.SetActive(false);
-                        ship.SetActive(true);
-                    }
-
-                    if (deebotPosValue > 0.6)
-                    {
-                        deebotPosValue -= 0.01f;
-                        deebot.transform.localPosition = new Vector3(deebotPosValue, 0.04f, 0);
-                    }
-
-                    if (deebotScaleValue < 1)
-                    {
-                        deebotScaleValue += 0.002f;
-                        deebot.transform.localScale = new Vector3(deebotScaleValue, deebotScaleValue, deebotScaleValue);
-
-                    }
-                    else
-                    {
-                        if (deebotValue < 1)
-                        {
-                            deebotValue += 0.01f;
-                            mt_deebot_main.SetFloat("_AdvancedDissolveCutoutStandardClip", deebotValue);
-                            mt_deebot_text.SetFloat("_AdvancedDissolveCutoutStandardClip", deebotValue);
-                        }
-                        else
-                        {
-                            deebot.SetActive(false);
-
-                            if (shipValue > 0)
-                            {
-                                shipValue -= 0.008f;
-                                mt_ship.SetFloat("_AdvancedDissolveCutoutStandardClip", shipValue);
-
-                            }
-                            else
-                            {
-                                fire.SetActive(true);
-                                //fire.GetComponent<ParticleSystem>();
-                                camera.SetActive(true);
-                            }
-                        }
-                    }
-
-
-                }
-                else
-                {
-                    circle.gameObject.SetActive(false);
-                    indoor.SetActive(false);
-                    gameLight.SetActive(true);  
-                }
-            }
+            WallRemove();
         }
+
+        if (step == 3)
+        {
+            AirbotRemove();
+        }
+
+
 
     }
 
     public void StartSettings()
     {
-        gameLight.SetActive(false);
-
+        // open at start
+        sceneCamera.SetActive(true);
+        dayLights.SetActive(true);
         indoor.SetActive(true);
+        deebot.SetActive(true);
+        airbot.SetActive(true);
 
-        over = false;
-        over1 = false;
+        // close at start
+        nightLights.SetActive(false);
+        gameLight.SetActive(false);
+        player.SetActive(false);
+        ship.SetActive(false);
+        playerCamera.SetActive(false);
+        tailFire.SetActive(false);
+        asteroidsList.SetActive(false);
+
+        // numbers setting 
 
         pivotY = 3.8f;
         pivot.transform.localPosition = new Vector3(0, pivotY, 0);
@@ -245,9 +170,8 @@ public class DTT : MonoBehaviour
         shipValue = 1f;
         mt_ship.SetFloat("_AdvancedDissolveCutoutStandardClip", shipValue);
 
-        ship.SetActive(false);
-        camera.SetActive(false);
-        fire.SetActive(false);
+        step = 0;
+
 
     }
 
@@ -273,11 +197,10 @@ public class DTT : MonoBehaviour
             blueFW2.SetActive(false);
             redFW.SetActive(false);
             redFw2.SetActive(false);
-            over1 = true;
+            step = 2;
         }
 
     }
-
 
     public void SceneLightChange()
     {
@@ -295,7 +218,7 @@ public class DTT : MonoBehaviour
 
             if (lightIntensity < 2.6f)
             {
-                lightIntensity += 0.01f;
+                lightIntensity += 0.03f;
                 foreach (Light i in lights)
                 { 
                     i.intensity = lightIntensity;
@@ -304,12 +227,146 @@ public class DTT : MonoBehaviour
             }
             else
             {
-                over = true;
+                step = 1;
             }
+
         } 
 
 
     }
+
+    public void WallRemove()
+    {
+        if (pivotY > -1)
+        {
+            pivotY -= 0.02f;
+            pivot.transform.localPosition = new Vector3(0, pivotY, 0);
+        }
+        else
+        {
+            pivot.SetActive(false);
+            step = 3;
+        }
+    }
+
+    public void AirbotRemove()
+    {
+        if (airbot.transform.position.x < 0.6)
+        {
+            airbot.transform.Translate(Vector3.right * Time.deltaTime);
+
+        }
+        else
+        {
+
+            if (boomValue < 100)
+            {
+                boomValue += 0.8f;
+                boom.transform.localScale = new Vector3(boomValue, boomValue, boomValue);
+            }
+            else
+            {
+                boom.SetActive(false);
+            }
+
+            if (airbotValue < 1)
+            {
+                airbotValue += 0.01f;
+                mt_airbot_top.SetFloat("_AdvancedDissolveCutoutStandardClip", airbotValue);
+                mt_airbot_main.SetFloat("_AdvancedDissolveCutoutStandardClip", airbotValue);
+                mt_airbot_text.SetFloat("_AdvancedDissolveCutoutStandardClip", airbotValue);
+            }
+            else
+            {
+                airbot.SetActive(false);
+            }
+
+            IndoorRemove();
+            DeebotRemove();
+
+        }
+    }
+
+    public void IndoorRemove()
+    {
+        radius = circle.target1Radius;
+
+        if (radius < 380)
+        {
+
+            if (radius < 8)
+            {
+                radius += 0.01f;
+                circle.target1Radius = radius;
+            } 
+            else
+            {
+                radius += 5f;
+                circle.target1Radius = radius;
+            }
+
+        }
+        else
+        {
+            circle.gameObject.SetActive(false);
+            indoor.SetActive(false);
+            gameLight.SetActive(true);
+            PlayerShow();
+        }
+    }
+
+    public void DeebotRemove()
+    {
+        if (deebotPosValue > 0.6)
+        {
+            deebotPosValue -= 0.01f;
+            deebot.transform.localPosition = new Vector3(deebotPosValue, 0.04f, 0);
+        }
+        else
+        {
+            if (deebotScaleValue < 1)
+            {
+                deebotScaleValue += 0.002f;
+                deebot.transform.localScale = new Vector3(deebotScaleValue, deebotScaleValue, deebotScaleValue);
+
+            }
+            else
+            {
+                if (deebotValue < 1)
+                {
+                    deebotValue += 0.01f;
+                    mt_deebot_main.SetFloat("_AdvancedDissolveCutoutStandardClip", deebotValue);
+                    mt_deebot_text.SetFloat("_AdvancedDissolveCutoutStandardClip", deebotValue);
+                }
+                else
+                {
+                    deebot.SetActive(false);
+                }
+            }
+        }
+
+    }
+
+    public void PlayerShow()
+    {
+        player.SetActive(true);
+        ship.SetActive(true);
+
+        if (shipValue > 0)
+        {
+            shipValue -= 0.008f;
+            mt_ship.SetFloat("_AdvancedDissolveCutoutStandardClip", shipValue);
+
+        }
+        else
+        {
+            playerCamera.SetActive(true);
+            sceneCamera.SetActive(false); 
+            tailFire.SetActive(true);
+        }
+    }
+
+
 
 
 }
