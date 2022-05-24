@@ -1,4 +1,4 @@
-    using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -13,7 +13,7 @@ public class DTT : MonoBehaviour
     public GameObject blueFW2;
     public GameObject redFW;
     public GameObject redFw2;
-    public GameObject dayLights;
+    public GameObject dayLights;    
     public GameObject nightLights;
     public GameObject airbot;
     public GameObject blanket;
@@ -98,7 +98,7 @@ public class DTT : MonoBehaviour
 
                 if(pivotY > -10)
                 {
-                    pivotY -= 0.005f;
+                    pivotY -= 0.01f;
                     pivot.transform.localPosition = new Vector3(0, pivotY, 0);
                 }
                 else
@@ -112,7 +112,7 @@ public class DTT : MonoBehaviour
 
                     if (radius < 8)
                     {
-                        radius += 0.005f;
+                        radius += 0.01f;
                         circle.target1Radius = radius;
                     }
                     else 
@@ -124,7 +124,7 @@ public class DTT : MonoBehaviour
 
                     if (airbotValue < 1)
                     {
-                        airbotValue += 0.001f;
+                        airbotValue += 0.01f;
                         mt_airbot_top.SetFloat("_AdvancedDissolveCutoutStandardClip", airbotValue);
                         mt_airbot_main.SetFloat("_AdvancedDissolveCutoutStandardClip", airbotValue);
                         mt_airbot_text.SetFloat("_AdvancedDissolveCutoutStandardClip", airbotValue);
@@ -144,7 +144,7 @@ public class DTT : MonoBehaviour
                         ship.SetActive(true);
                     }
 
-                    if (deebotPosValue > 0)
+                    if (deebotPosValue > 0.6)
                     {
                         deebotPosValue -= 0.01f;
                         deebot.transform.localPosition = new Vector3(deebotPosValue, 0.04f, 0);
@@ -152,7 +152,7 @@ public class DTT : MonoBehaviour
 
                     if (deebotScaleValue < 1)
                     {
-                        deebotScaleValue += 0.008f;
+                        deebotScaleValue += 0.002f;
                         deebot.transform.localScale = new Vector3(deebotScaleValue, deebotScaleValue, deebotScaleValue);
 
                     }
@@ -160,7 +160,7 @@ public class DTT : MonoBehaviour
                     {
                         if (deebotValue < 1)
                         {
-                            deebotValue += 0.001f;
+                            deebotValue += 0.01f;
                             mt_deebot_main.SetFloat("_AdvancedDissolveCutoutStandardClip", deebotValue);
                             mt_deebot_text.SetFloat("_AdvancedDissolveCutoutStandardClip", deebotValue);
                         }
@@ -170,7 +170,7 @@ public class DTT : MonoBehaviour
 
                             if (shipValue > 0)
                             {
-                                shipValue -= 0.01f;
+                                shipValue -= 0.008f;
                                 mt_ship.SetFloat("_AdvancedDissolveCutoutStandardClip", shipValue);
 
                             }
@@ -257,7 +257,7 @@ public class DTT : MonoBehaviour
 
         if (removeValue > 0)
         {
-            removeValue -= 0.005f;
+            removeValue -= 0.01f;
 
             mt_window.SetFloat("_FrostIntensity", removeValue);
             mt_yellowFW.SetColor("_Color", new Color(1, 1, 1, removeValue));
@@ -291,9 +291,9 @@ public class DTT : MonoBehaviour
         } 
         else
         {
-            dayLights.SetActive(false);
+            nightLights.SetActive(true);
 
-            if (lightIntensity < 2.4)
+            if (lightIntensity < 2.6f)
             {
                 lightIntensity += 0.01f;
                 foreach (Light i in lights)
