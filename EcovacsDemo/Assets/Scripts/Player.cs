@@ -31,8 +31,7 @@ public class Player : MonoBehaviour
         healthBar.maxValue = maxHealth;
         BulletBar.maxValue = maxBullets;
 
-        healthText.text = maxHealth.ToString();
-        bulletText.text = maxBullets.ToString();
+        UpdateUI();
 
         InvokeRepeating("AddBullets", 3f, 5f);
 
@@ -49,7 +48,7 @@ public class Player : MonoBehaviour
             PlayerDie();
         }
 
-        //UpdateUI();
+        UpdateUI();
     }
 
     private void OnTriggerEnter(Collider collision)

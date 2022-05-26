@@ -38,6 +38,8 @@ public class DTT : MonoBehaviour
     public GameObject playerCamera;
     public GameObject asteroidsList;
 
+    public GameObject hud;
+
     public Transform firePos; 
     
 
@@ -127,6 +129,7 @@ public class DTT : MonoBehaviour
         playerCamera.SetActive(false);
         tailFire.SetActive(false);
         asteroidsList.SetActive(false);
+        hud.SetActive(false);
 
         // numbers setting 
 
@@ -181,7 +184,7 @@ public class DTT : MonoBehaviour
 
         if (removeValue > 0)
         {
-            removeValue -= 0.01f;
+            removeValue -= 0.005f;
 
             mt_window.SetFloat("_FrostIntensity", removeValue);
             mt_yellowFW.SetColor("_Color", new Color(1, 1, 1, removeValue));
@@ -208,7 +211,7 @@ public class DTT : MonoBehaviour
 
         if (sceneColorValue > 0.4)
         {
-            sceneColorValue -= 0.005f;
+            sceneColorValue -= 0.003f;
             RenderSettings.ambientLight = new Color(sceneColorValue, sceneColorValue, sceneColorValue);
 
         } 
@@ -218,7 +221,7 @@ public class DTT : MonoBehaviour
 
             if (lightIntensity < 2.6f)
             {
-                lightIntensity += 0.03f;
+                lightIntensity += 0.01f;
                 foreach (Light i in lights)
                 { 
                     i.intensity = lightIntensity;
@@ -239,7 +242,7 @@ public class DTT : MonoBehaviour
     {
         if (pivotY > -1)
         {
-            pivotY -= 0.02f;
+            pivotY -= 0.005f;
             pivot.transform.localPosition = new Vector3(0, pivotY, 0);
         }
         else
@@ -271,7 +274,7 @@ public class DTT : MonoBehaviour
 
             if (airbotValue < 1)
             {
-                airbotValue += 0.01f;
+                airbotValue += 0.005f;
                 mt_airbot_top.SetFloat("_AdvancedDissolveCutoutStandardClip", airbotValue);
                 mt_airbot_main.SetFloat("_AdvancedDissolveCutoutStandardClip", airbotValue);
                 mt_airbot_text.SetFloat("_AdvancedDissolveCutoutStandardClip", airbotValue);
@@ -294,14 +297,14 @@ public class DTT : MonoBehaviour
         if (radius < 380)
         {
 
-            if (radius < 8)
+            if (radius < 7)
             {
-                radius += 0.01f;
+                radius += 0.005f;
                 circle.target1Radius = radius;
             } 
             else
             {
-                radius += 5f;
+                radius += 8f;
                 circle.target1Radius = radius;
             }
 
@@ -319,14 +322,14 @@ public class DTT : MonoBehaviour
     {
         if (deebotPosValue > 0.6)
         {
-            deebotPosValue -= 0.01f;
+            deebotPosValue -= 0.005f;
             deebot.transform.localPosition = new Vector3(deebotPosValue, 0.04f, 0);
         }
         else
         {
             if (deebotScaleValue < 1)
             {
-                deebotScaleValue += 0.002f;
+                deebotScaleValue += 0.001f;
                 deebot.transform.localScale = new Vector3(deebotScaleValue, deebotScaleValue, deebotScaleValue);
 
             }
@@ -334,7 +337,7 @@ public class DTT : MonoBehaviour
             {
                 if (deebotValue < 1)
                 {
-                    deebotValue += 0.01f;
+                    deebotValue += 0.005f;
                     mt_deebot_main.SetFloat("_AdvancedDissolveCutoutStandardClip", deebotValue);
                     mt_deebot_text.SetFloat("_AdvancedDissolveCutoutStandardClip", deebotValue);
                 }
@@ -354,7 +357,7 @@ public class DTT : MonoBehaviour
 
         if (shipValue > 0)
         {
-            shipValue -= 0.008f;
+            shipValue -= 0.004f;
             mt_ship.SetFloat("_AdvancedDissolveCutoutStandardClip", shipValue);
 
         }
@@ -363,6 +366,8 @@ public class DTT : MonoBehaviour
             playerCamera.SetActive(true);
             sceneCamera.SetActive(false); 
             tailFire.SetActive(true);
+            hud.SetActive(true);
+            asteroidsList.SetActive(true);
         }
     }
 

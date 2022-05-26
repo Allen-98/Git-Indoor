@@ -10,6 +10,9 @@ public class GameManager : MonoBehaviour
     public GameObject BulletList;
     public GameObject Player;
 
+    private bool isPressedRight;
+    private bool isPressedLeft;
+
     private bool isPaused = false;
     private float maxRotation = 25;
     private float minRotation = 335;
@@ -31,6 +34,9 @@ public class GameManager : MonoBehaviour
         {
             Invoke("GameOver", 1f);
         }
+
+
+
     }
 
     public void PauseGame()
@@ -55,42 +61,23 @@ public class GameManager : MonoBehaviour
 
     public void SimpleControl()
     {
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyCode.A) || isPressedLeft)
         {
-            float angle = PlayerShip.transform.localEulerAngles.z;
-            angle = ClampAngle(angle, minRotation, maxRotation);
-
-            if (angle < 25 || angle > 334)
-            {
-                PlayerShip.transform.Rotate(-PlayerShip.transform.forward, Time.deltaTime * -rotateSpeed);
-
-            }
-
-            Player.transform.Translate(-moveSpeed * Time.deltaTime, 0, 0);
-
+            TurnLeft();
         }
 
 
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.D) || isPressedRight)
         {
-            float angle = PlayerShip.transform.localEulerAngles.z;
-            angle = ClampAngle(angle, minRotation, maxRotation);
+            TurnRight();
+        }
 
-            if (angle > 335 || angle < 26)
-            {
-                PlayerShip.transform.Rotate(-PlayerShip.transform.forward, Time.deltaTime * rotateSpeed);
-
-            }
-
-            Player.transform.Translate(moveSpeed * Time.deltaTime, 0, 0);
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Shoot();
         }
 
 
-        if (Input.GetKeyDown(KeyCode.Space) && player.currentBullets != 0)
-        {
-            Instantiate(Bullet, BulletList.transform.position, Bullet.transform.rotation);
-            player.currentBullets -= 1;
-        }
 
 
     }
@@ -108,6 +95,57 @@ public class GameManager : MonoBehaviour
         return angle;
     }
 
+    public void Shoot()
+    {
 
+        if (player.currentBullets != 0)
+        {
+            Instantiate(Bullet, BulletList.transform.position, Bullet.transform.rotation);
+            player.currentBullets -= 1;
+        }
+    }
+
+    public void TurnRight()
+    {
+        float angle = PlayerShip.transform.localEulerAngles.z;
+        angle = ClampAngle(angle, minRotation, maxRotation);
+
+        if (angle > 335 || angle < 26)
+        {
+            PlayerShip.transform.Rotate(-PlayerShip.transform.forward, Time.deltaTime * rotateSpeed);
+
+        }
+
+        Player.transform.Translate(moveSpeed * Time.deltaTime, 0, 0);
+    }
+
+    public void TurnLeft()
+    {
+
+        float angle = PlayerShip.transform.localEulerAngles.z;
+        angle = ClampAngle(angle, minRotation, maxRotation);
+
+        if (angle < 25 || angle > 334)
+        {
+            PlayerShip.transform.Rotate(-PlayerShip.transform.forward, Time.deltaTime * -rotateSpeed);
+
+        }
+
+        Player.transform.Translate(-moveSpeed * Time.deltaTime, 0, 0);
+    }
+
+    public void LongPressRight(bool bStart)
+    {
+
+        isPressedRight = bStart;
+
+    }
+
+    public void LongPressLeft(bool bStart)
+    {
+
+        isPressedLeft = bStart;
+
+    }
 
 }
