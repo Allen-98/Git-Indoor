@@ -73,6 +73,7 @@ public class DTT : MonoBehaviour
     private float shipValue;
     private float pivotY;
 
+    private bool finish;
     private int step = 0;
         
     // Start is called before the first frame update
@@ -175,7 +176,7 @@ public class DTT : MonoBehaviour
 
         step = 0;
 
-
+        finish = false;
     }
 
     public void ThingsRemove()
@@ -184,7 +185,7 @@ public class DTT : MonoBehaviour
 
         if (removeValue > 0)
         {
-            removeValue -= 0.005f;
+            removeValue -= 0.04f;
 
             mt_window.SetFloat("_FrostIntensity", removeValue);
             mt_yellowFW.SetColor("_Color", new Color(1, 1, 1, removeValue));
@@ -211,7 +212,7 @@ public class DTT : MonoBehaviour
 
         if (sceneColorValue > 0.4)
         {
-            sceneColorValue -= 0.003f;
+            sceneColorValue -= 0.005f;
             RenderSettings.ambientLight = new Color(sceneColorValue, sceneColorValue, sceneColorValue);
 
         } 
@@ -219,9 +220,9 @@ public class DTT : MonoBehaviour
         {
             nightLights.SetActive(true);
 
-            if (lightIntensity < 2.6f)
+            if (lightIntensity < 2.8f)
             {
-                lightIntensity += 0.01f;
+                lightIntensity += 0.05f;
                 foreach (Light i in lights)
                 { 
                     i.intensity = lightIntensity;
@@ -242,7 +243,7 @@ public class DTT : MonoBehaviour
     {
         if (pivotY > -1)
         {
-            pivotY -= 0.005f;
+            pivotY -= 0.02f;
             pivot.transform.localPosition = new Vector3(0, pivotY, 0);
         }
         else
@@ -261,10 +262,11 @@ public class DTT : MonoBehaviour
         }
         else
         {
+            boom.SetActive(true);
 
             if (boomValue < 100)
             {
-                boomValue += 0.8f;
+                boomValue += 1f;
                 boom.transform.localScale = new Vector3(boomValue, boomValue, boomValue);
             }
             else
@@ -274,7 +276,7 @@ public class DTT : MonoBehaviour
 
             if (airbotValue < 1)
             {
-                airbotValue += 0.005f;
+                airbotValue += 0.008f;
                 mt_airbot_top.SetFloat("_AdvancedDissolveCutoutStandardClip", airbotValue);
                 mt_airbot_main.SetFloat("_AdvancedDissolveCutoutStandardClip", airbotValue);
                 mt_airbot_text.SetFloat("_AdvancedDissolveCutoutStandardClip", airbotValue);
@@ -297,14 +299,14 @@ public class DTT : MonoBehaviour
         if (radius < 380)
         {
 
-            if (radius < 7)
+            if (radius < 6)
             {
-                radius += 0.005f;
+                radius += 0.01f;
                 circle.target1Radius = radius;
             } 
             else
             {
-                radius += 8f;
+                radius += 15f;
                 circle.target1Radius = radius;
             }
 
@@ -314,22 +316,26 @@ public class DTT : MonoBehaviour
             circle.gameObject.SetActive(false);
             indoor.SetActive(false);
             gameLight.SetActive(true);
-            PlayerShow();
+            finish = true;
+
         }
+
+        PlayerShow();
+
     }
 
     public void DeebotRemove()
     {
-        if (deebotPosValue > 0.6)
+        if (deebotPosValue > 0)
         {
-            deebotPosValue -= 0.005f;
+            deebotPosValue -= 0.01f;
             deebot.transform.localPosition = new Vector3(deebotPosValue, 0.04f, 0);
         }
         else
         {
             if (deebotScaleValue < 1)
             {
-                deebotScaleValue += 0.001f;
+                deebotScaleValue += 0.01f;
                 deebot.transform.localScale = new Vector3(deebotScaleValue, deebotScaleValue, deebotScaleValue);
 
             }
@@ -337,12 +343,14 @@ public class DTT : MonoBehaviour
             {
                 if (deebotValue < 1)
                 {
-                    deebotValue += 0.005f;
+                    deebotValue += 0.006f;
                     mt_deebot_main.SetFloat("_AdvancedDissolveCutoutStandardClip", deebotValue);
                     mt_deebot_text.SetFloat("_AdvancedDissolveCutoutStandardClip", deebotValue);
+
                 }
                 else
                 {
+
                     deebot.SetActive(false);
                 }
             }
@@ -355,16 +363,20 @@ public class DTT : MonoBehaviour
         player.SetActive(true);
         ship.SetActive(true);
 
-        if (shipValue > 0)
+        if (shipValue > -0.1)
         {
-            shipValue -= 0.004f;
-            mt_ship.SetFloat("_AdvancedDissolveCutoutStandardClip", shipValue);
+            if (deebotValue > 0.7)
+            {
+                shipValue -= 0.006f;
+                mt_ship.SetFloat("_AdvancedDissolveCutoutStandardClip", shipValue);
+            }
 
         }
-        else
+        else if (finish)
         {
             playerCamera.SetActive(true);
-            sceneCamera.SetActive(false); 
+            sceneCamera.SetActive(false);
+
             tailFire.SetActive(true);
             hud.SetActive(true);
             asteroidsList.SetActive(true);
