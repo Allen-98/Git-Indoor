@@ -9,7 +9,7 @@ public class AsteroidsGenerator : MonoBehaviour
     public GameObject asteroidsList;
     public float maxX=200f;
     public float maxY=5f;
-
+    public GameManager gm;
 
     // Start is called before the first frame update
     void Start()
@@ -20,8 +20,12 @@ public class AsteroidsGenerator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        RandomGenerate();  
-        
+        if (!gm.gameOver)
+        {
+            RandomGenerate();
+
+        }
+
     }
 
     public void RandomGenerate()

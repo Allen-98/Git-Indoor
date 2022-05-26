@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     public GameObject BulletList;
     public GameObject Player;
 
+    public bool gameOver;
+
     private bool isPressedRight;
     private bool isPressedLeft;
 
@@ -22,7 +24,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        gameOver = false;
     }
 
     // Update is called once per frame
@@ -56,6 +58,7 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         Time.timeScale = 0f;
+        gameOver = true;
     }
 
 
